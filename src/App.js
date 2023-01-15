@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 // import Particles from 'react-particles-js';
 import ParticlesBg from 'particles-bg';
@@ -9,7 +9,12 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
+// import Clarifai from 'clarifai';
+// let Clarifai = require('clarifai');
 
+// const app = new Clarifai.App({
+//   apiKey: '1deba41bd7314eadbdde9774187a7e65'
+//  });
 
 const initialState = {
   input: '',
@@ -26,7 +31,7 @@ const initialState = {
       }
 }
 
-class App extends React.Component {
+class App extends Component {
   constructor() {
     super();
     this.state = initialState;
@@ -65,7 +70,7 @@ class App extends React.Component {
 
   onPictureSubmit = () => {
     this.setState({imageUrl: this.state.input});
-      fetch('https://arcane-scrubland-85882.herokuapp.com/imageurl', {
+      fetch('http://localhost:3000/imageurl', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -75,7 +80,7 @@ class App extends React.Component {
       .then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('https://arcane-scrubland-85882.herokuapp.com/image', {
+          fetch('http://localhost:3000/imageurl', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -112,7 +117,10 @@ class App extends React.Component {
         { route === 'home' 
           ? <div> 
               <Logo />
-              <Rank name={this.state.user.name} entries={this.state.user.entries} />
+              <Rank 
+                name={this.state.user.name} 
+                entries={this.state.user.entries} 
+                />
               <ImageLinkForm 
                 onInputChange={this.onInputChange} 
                 onPictureSubmit={this.onPictureSubmit}
